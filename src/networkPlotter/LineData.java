@@ -19,6 +19,7 @@ public class LineData extends JPanel implements ActionListener
 	private JButton colorPicker;
 	private String name;
 	private ColorPickerFrame cp;
+	private JButton remove;
 	
 	public LineData(String name)
 	{
@@ -52,6 +53,9 @@ public class LineData extends JPanel implements ActionListener
 				Globals.colors.put(name, cp.getColor());
 			}
 		});
+		remove = new JButton("X");
+		remove.addActionListener(this);
+		this.add(remove);
 	}
 
 	@Override
@@ -74,6 +78,15 @@ public class LineData extends JPanel implements ActionListener
 		else if(e.getSource().equals(colorPicker))
 		{
 			cp.setVisible(true);
+		}
+		else if(e.getSource().equals(remove))
+		{
+			Globals.data.remove(name);
+			Globals.enabled.remove(name);
+			Globals.colors.remove(name);
+			this.removeAll();
+			this.revalidate();
+			this.repaint();
 		}
 	}
 }

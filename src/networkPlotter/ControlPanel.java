@@ -23,7 +23,7 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 	JTextField ip;
 	JTextField add;
 	JPanel space;
-	JSpinner vertScaleSpinner;
+	JSpinner maxSpinner;
 	
 	public ControlPanel()
 	{
@@ -45,11 +45,11 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		this.add(ip);
 		JPanel tmp = new JPanel();
 		tmp.setMaximumSize(new Dimension(500, 30));
-		tmp.add(new JLabel("Vetical Scale: "));
+		tmp.add(new JLabel("Max Value: "));
 		tmp.setAlignmentX(LEFT_ALIGNMENT);
-		vertScaleSpinner = new JSpinner(new SpinnerNumberModel(1, -100, 100, 0.01));
-		vertScaleSpinner.addChangeListener(this);
-		tmp.add(vertScaleSpinner);
+		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -10000.0, 10000.0, 1.0));
+		maxSpinner.addChangeListener(this);
+		tmp.add(maxSpinner);
 		this.add(tmp);
 		this.add(new JLabel("Add more data:",JLabel.LEFT));
 		add = new JTextField();
@@ -84,9 +84,9 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
-		if(e.getSource().equals(vertScaleSpinner))
+		if(e.getSource().equals(maxSpinner))
 		{
-			Globals.vertScale = (double) vertScaleSpinner.getValue();
+			Globals.vertMax = (double) maxSpinner.getValue();
 		}
 	}
 	

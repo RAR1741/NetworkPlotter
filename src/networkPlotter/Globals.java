@@ -12,14 +12,14 @@ public class Globals
 	public static List<String> enabled;
 	public static Map<String, Color> colors;
 	public static boolean autoscroll;
-	public static int vertOffset;
-	public static double vertScale;
+	public static double vertMin;
+	public static double vertMax;
 	
 	public static void init()
 	{
 		autoscroll = true;
-		vertOffset = 200;
-		vertScale = 1.0;
+		vertMin = -100;
+		vertMax = 100;
 		data = new LinkedHashMap<String, Map<Integer, Double>>()
 		{
 			private static final long serialVersionUID = 1475914646030268172L;

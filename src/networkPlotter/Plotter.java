@@ -79,7 +79,8 @@ public class Plotter extends JPanel implements MouseMotionListener
 				g2d.drawLine(i, 0, i, this.getHeight()-BOTTOM);
 			}
 		}
-		g2d.drawLine(0, this.getHeight()-BOTTOM-Globals.vertOffset, this.getWidth(), this.getHeight()-BOTTOM-Globals.vertOffset);
+		//System.out.println(mapValue(Globals.vertMin, Globals.vertMax, this.getHeight()-BOTTOM, 0, 0));
+		g2d.drawLine(0, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0), this.getWidth(), (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0));
 		for(String s : Globals.enabled)
 		{
 			Integer lastx = null, lasty = null;
@@ -91,16 +92,15 @@ public class Plotter extends JPanel implements MouseMotionListener
 					Entry<Integer, Double> e = iter.next();
 					if((e.getKey()/Hscale)-scroll-3>=0 && (e.getKey()/Hscale)-scroll-3<=this.getWidth())
 					{
-						g2d.fillOval((e.getKey()/Hscale)-scroll-3, this.getHeight()-(int)Math.round(e.getValue()*Globals.vertScale)-3-BOTTOM-Globals.vertOffset, 6, 6);
+						g2d.fillOval((e.getKey()/Hscale)-scroll-3, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue())-3, 6, 6);
 						if(lastx == null)
 						{
 							lastx = (e.getKey()/Hscale);
-							lasty = (int)Math.round(e.getValue()*Globals.vertScale);
+							lasty = (int)Math.round(e.getValue());
 						}
-						int h = this.getHeight();
-						g2d.drawLine(lastx-scroll, h-lasty-BOTTOM-Globals.vertOffset, (e.getKey()/Hscale)-scroll, h-(int)Math.round(e.getValue()*Globals.vertScale)-BOTTOM-Globals.vertOffset);
+						g2d.drawLine(lastx-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, lasty), (e.getKey()/Hscale)-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue()));
 						lastx = (e.getKey()/Hscale);
-						lasty = (int)Math.round(e.getValue()*Globals.vertScale);
+						lasty = (int)Math.round(e.getValue());
 					}
 				}}
 			}
@@ -143,4 +143,9 @@ public class Plotter extends JPanel implements MouseMotionListener
 
 	@Override
 	public void mouseMoved(MouseEvent e) {}
+	
+	public static double mapValue(double oMin, double oMax, double nMin, double nMax, double val)
+	{
+		return (val - oMin) * (nMax - nMin) / (oMax - oMin) + nMin;
+	}
 }

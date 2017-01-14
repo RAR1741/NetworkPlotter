@@ -14,12 +14,16 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 public class Plotter extends JPanel implements MouseMotionListener
 {
 	private static final long serialVersionUID = 6406146367544069608L;
 	long start;
 	double y;
 	double y2;
+	NetworkTable table;
+	
 	public Plotter()
 	{
 		super();
@@ -36,26 +40,30 @@ public class Plotter extends JPanel implements MouseMotionListener
 			}
 		});
 		this.setPreferredSize(new Dimension(700, 600));
+		table = NetworkTable.getTable("logging");
 	}
 	
 	private int scroll = 0;
 	private final static int BOTTOM = 20;
-	private int Hscale = 100;
+	private int Hscale = 10;
 	
 	@Override
 	public void paint(Graphics g)
 	{
-		LinkedHashMap<String, Map<Integer, Integer>> tmp = new LinkedHashMap<String, Map<Integer, Integer>>(Globals.data);
+		LinkedHashMap<String, Map<Integer, Double>> tmp = new LinkedHashMap<String, Map<Integer, Double>>(Globals.data);
 		Graphics2D g2d = (Graphics2D) g;
 		if(Globals.autoscroll)
 		{
 			for(String s : Globals.enabled)
 			{
-				for(Map.Entry<Integer, Integer> e : tmp.get(s).entrySet())
+				if(tmp.containsKey(s))
 				{
-					if(e.getKey()/Hscale > this.getWidth())
+					for(Map.Entry<Integer, Double> e : tmp.get(s).entrySet())
 					{
-						scroll = e.getKey()/Hscale - this.getWidth();
+						if(e.getKey()/Hscale > this.getWidth())
+						{
+							scroll = e.getKey()/Hscale - this.getWidth();
+						}
 					}
 				}
 			}
@@ -75,21 +83,21 @@ public class Plotter extends JPanel implements MouseMotionListener
 		{
 			Integer lastx = null, lasty = null;
 			g2d.setColor(Globals.colors.get(s));
-			synchronized(tmp.get(s)){ for(Iterator<Map.Entry<Integer, Integer>> iter = tmp.get(s).entrySet().iterator(); iter.hasNext(); )
+			synchronized(tmp.get(s)){ for(Iterator<Map.Entry<Integer, Double>> iter = tmp.get(s).entrySet().iterator(); iter.hasNext(); )
 			{
-				Entry<Integer, Integer> e = iter.next();
+				Entry<Integer, Double> e = iter.next();
 				if((e.getKey()/Hscale)-scroll-3>=0 && (e.getKey()/Hscale)-scroll-3<=this.getWidth())
 				{
-					g2d.fillOval((e.getKey()/Hscale)-scroll-3, this.getHeight()-e.getValue()-3-BOTTOM, 6, 6);
+					g2d.fillOval((e.getKey()/Hscale)-scroll-3, this.getHeight()-(int)Math.round(e.getValue())-3-BOTTOM, 6, 6);
 					if(lastx == null)
 					{
 						lastx = (e.getKey()/Hscale);
-						lasty = e.getValue();
+						lasty = (int)Math.round(e.getValue());
 					}
 					int h = this.getHeight();
-					g2d.drawLine(lastx-scroll, h-lasty-BOTTOM, (e.getKey()/Hscale)-scroll, h-e.getValue()-BOTTOM);
+					g2d.drawLine(lastx-scroll, h-lasty-BOTTOM, (e.getKey()/Hscale)-scroll, h-(int)Math.round(e.getValue())-BOTTOM);
 					lastx = (e.getKey()/Hscale);
-					lasty = e.getValue();
+					lasty = (int)Math.round(e.getValue());
 				}
 			}}
 		}
@@ -112,9 +120,13 @@ public class Plotter extends JPanel implements MouseMotionListener
 	{
 		y+=0.05;
 		y2-=0.02;
-		Globals.data.get("Test").put((int)(System.currentTimeMillis()-start), (int)y);
-		Globals.data.get("Test2").put((int)(System.currentTimeMillis()-start), (int)y2);
-		Globals.data.get("sin(x)").put((int)(System.currentTimeMillis()-start), (int)(Math.sin((System.currentTimeMillis()%Integer.MAX_VALUE)/1000.0)* 100 + 200));
+		for(Map.Entry<String, Map<Integer, Double>> e : Globals.data.entrySet())
+		{
+			Globals.data.get(e.getKey()).put((int)(System.currentTimeMillis()-start), table.getNumber(e.getKey(), 0.0));
+		}
+//		Globals.data.get("Test").put((int)(System.currentTimeMillis()-start), y);
+//		Globals.data.get("Test2").put((int)(System.currentTimeMillis()-start), y2);
+//		Globals.data.get("sin(x)").put((int)(System.currentTimeMillis()-start), (Math.sin((System.currentTimeMillis()%Integer.MAX_VALUE)/1000.0)* 100 + 200));
 	}
 	
 	public int prevx;

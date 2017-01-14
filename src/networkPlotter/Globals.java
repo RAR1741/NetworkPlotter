@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Globals
 {
-	public static Map<String, Map<Integer, Integer>> data;
+	public static Map<String, Map<Integer, Double>> data;
 	public static List<String> enabled;
 	public static Map<String, Color> colors;
 	public static boolean autoscroll;
@@ -16,23 +16,23 @@ public class Globals
 	public static void init()
 	{
 		autoscroll = true;
-		data = new LinkedHashMap<String, Map<Integer, Integer>>()
+		data = new LinkedHashMap<String, Map<Integer, Double>>()
 		{
 			private static final long serialVersionUID = 1475914646030268172L;
 			@Override
-			public Map<Integer, Integer> get(Object o)
+			public Map<Integer, Double> get(Object o)
 			{
 				if(!containsKey(o))
 				{
-					Map<Integer, Integer> tmp = new LinkedHashMap<Integer, Integer>()
+					Map<Integer, Double> tmp = new LinkedHashMap<Integer, Double>()
 					{
 						private static final long serialVersionUID = 1L;
 						@Override
-						public Integer get(Object o)
+						public Double get(Object o)
 						{
 							if(!containsKey(o))
 							{
-								return 0;
+								return 0.0;
 							}
 							return super.get(o);
 						}

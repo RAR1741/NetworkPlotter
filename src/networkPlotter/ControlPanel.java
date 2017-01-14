@@ -8,17 +8,22 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class ControlPanel extends JPanel implements ActionListener
+public class ControlPanel extends JPanel implements ActionListener, ChangeListener
 {
 	private static final long serialVersionUID = 4974031669602868511L;
 	JCheckBox check;
 	JTextField ip;
 	JTextField add;
 	JPanel space;
+	JSpinner vertScaleSpinner;
 	
 	public ControlPanel()
 	{
@@ -38,6 +43,14 @@ public class ControlPanel extends JPanel implements ActionListener
 		ip.setText("roborio-1782-frc.local");
 		ip.addActionListener(this);
 		this.add(ip);
+		JPanel tmp = new JPanel();
+		tmp.setMaximumSize(new Dimension(500, 30));
+		tmp.add(new JLabel("Vetical Scale: "));
+		tmp.setAlignmentX(LEFT_ALIGNMENT);
+		vertScaleSpinner = new JSpinner(new SpinnerNumberModel(1, -100, 100, 0.01));
+		vertScaleSpinner.addChangeListener(this);
+		tmp.add(vertScaleSpinner);
+		this.add(tmp);
 		this.add(new JLabel("Add more data:",JLabel.LEFT));
 		add = new JTextField();
 		add.setAlignmentX(LEFT_ALIGNMENT);
@@ -65,6 +78,15 @@ public class ControlPanel extends JPanel implements ActionListener
 		else if(e.getSource().equals(add))
 		{
 			addLineData(add.getText());
+		}
+	}
+	
+	@Override
+	public void stateChanged(ChangeEvent e)
+	{
+		if(e.getSource().equals(vertScaleSpinner))
+		{
+			Globals.vertScale = (double) vertScaleSpinner.getValue();
 		}
 	}
 	

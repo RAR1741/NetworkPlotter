@@ -79,27 +79,31 @@ public class Plotter extends JPanel implements MouseMotionListener
 				g2d.drawLine(i, 0, i, this.getHeight()-BOTTOM);
 			}
 		}
+		g2d.drawLine(0, this.getHeight()-BOTTOM-Globals.vertOffset, this.getWidth(), this.getHeight()-BOTTOM-Globals.vertOffset);
 		for(String s : Globals.enabled)
 		{
 			Integer lastx = null, lasty = null;
 			g2d.setColor(Globals.colors.get(s));
-			synchronized(tmp.get(s)){ for(Iterator<Map.Entry<Integer, Double>> iter = tmp.get(s).entrySet().iterator(); iter.hasNext(); )
+			if(tmp.containsKey(s))
 			{
-				Entry<Integer, Double> e = iter.next();
-				if((e.getKey()/Hscale)-scroll-3>=0 && (e.getKey()/Hscale)-scroll-3<=this.getWidth())
+				synchronized(tmp.get(s)){ for(Iterator<Map.Entry<Integer, Double>> iter = tmp.get(s).entrySet().iterator(); iter.hasNext(); )
 				{
-					g2d.fillOval((e.getKey()/Hscale)-scroll-3, this.getHeight()-(int)Math.round(e.getValue())-3-BOTTOM, 6, 6);
-					if(lastx == null)
+					Entry<Integer, Double> e = iter.next();
+					if((e.getKey()/Hscale)-scroll-3>=0 && (e.getKey()/Hscale)-scroll-3<=this.getWidth())
 					{
+						g2d.fillOval((e.getKey()/Hscale)-scroll-3, this.getHeight()-(int)Math.round(e.getValue()*Globals.vertScale)-3-BOTTOM-Globals.vertOffset, 6, 6);
+						if(lastx == null)
+						{
+							lastx = (e.getKey()/Hscale);
+							lasty = (int)Math.round(e.getValue()*Globals.vertScale);
+						}
+						int h = this.getHeight();
+						g2d.drawLine(lastx-scroll, h-lasty-BOTTOM-Globals.vertOffset, (e.getKey()/Hscale)-scroll, h-(int)Math.round(e.getValue()*Globals.vertScale)-BOTTOM-Globals.vertOffset);
 						lastx = (e.getKey()/Hscale);
-						lasty = (int)Math.round(e.getValue());
+						lasty = (int)Math.round(e.getValue()*Globals.vertScale);
 					}
-					int h = this.getHeight();
-					g2d.drawLine(lastx-scroll, h-lasty-BOTTOM, (e.getKey()/Hscale)-scroll, h-(int)Math.round(e.getValue())-BOTTOM);
-					lastx = (e.getKey()/Hscale);
-					lasty = (int)Math.round(e.getValue());
-				}
-			}}
+				}}
+			}
 		}
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, this.getHeight()-BOTTOM, this.getWidth(), this.getHeight()-BOTTOM);

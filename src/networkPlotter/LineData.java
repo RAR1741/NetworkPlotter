@@ -29,13 +29,11 @@ public class LineData extends JPanel implements ActionListener
 	{
 		super();
 		this.setAlignmentX(LEFT_ALIGNMENT);
-		System.out.println("create");
 		this.name = name;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		enabled = new JCheckBox(name);
 		enabled.addActionListener(this);
 		enabled.setSelected(true);
-		Globals.enabled.add(name);
 		this.add(enabled);
 		colorPicker = new JButton("  ");
 		colorPicker.setBackground(color);
@@ -61,7 +59,6 @@ public class LineData extends JPanel implements ActionListener
 	{
 		if(e.getSource().equals(enabled))
 		{
-			System.out.println(Globals.enabled);
 			if(enabled.isSelected())
 			{
 				Globals.enabled.add(name);

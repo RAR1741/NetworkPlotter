@@ -35,7 +35,7 @@ public class ControlPanel extends JPanel implements ActionListener
 		ip.setAlignmentX(LEFT_ALIGNMENT);
 		ip.setColumns(30);
 		ip.setMaximumSize(ip.getPreferredSize());
-		ip.setText("roborio-1741-frc.local");
+		ip.setText("roborio-1782-frc.local");
 		ip.addActionListener(this);
 		this.add(ip);
 		this.add(new JLabel("Add more data:",JLabel.LEFT));
@@ -70,8 +70,9 @@ public class ControlPanel extends JPanel implements ActionListener
 	
 	public void addLineData(String name)
 	{
-		System.out.println("add");
 		space.add(new LineData(name));
+		Globals.enabled.add(name);
+		Globals.data.put(name, Globals.data.get(name));
 		space.revalidate();
 		space.repaint();
 	}

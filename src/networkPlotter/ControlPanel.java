@@ -24,6 +24,7 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 	JTextField add;
 	JPanel space;
 	JSpinner maxSpinner;
+	JSpinner minSpinner;
 	
 	public ControlPanel()
 	{
@@ -44,12 +45,20 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		ip.addActionListener(this);
 		this.add(ip);
 		JPanel tmp = new JPanel();
-		tmp.setMaximumSize(new Dimension(500, 30));
+		tmp.setMaximumSize(new Dimension(500, 25));
 		tmp.add(new JLabel("Max Value: "));
 		tmp.setAlignmentX(LEFT_ALIGNMENT);
 		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -10000.0, 10000.0, 1.0));
 		maxSpinner.addChangeListener(this);
 		tmp.add(maxSpinner);
+		this.add(tmp);
+		tmp = new JPanel();
+		tmp.setMaximumSize(new Dimension(500, 25));
+		tmp.add(new JLabel("Min Value: "));
+		tmp.setAlignmentX(LEFT_ALIGNMENT);
+		minSpinner = new JSpinner(new SpinnerNumberModel(-100.0, -10000.0, 10000.0, 1.0));
+		minSpinner.addChangeListener(this);
+		tmp.add(minSpinner);
 		this.add(tmp);
 		this.add(new JLabel("Add more data:",JLabel.LEFT));
 		add = new JTextField();
@@ -87,6 +96,10 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		if(e.getSource().equals(maxSpinner))
 		{
 			Globals.vertMax = (double) maxSpinner.getValue();
+		}
+		else if(e.getSource().equals(minSpinner))
+		{
+			Globals.vertMin = (double) minSpinner.getValue();
 		}
 	}
 	

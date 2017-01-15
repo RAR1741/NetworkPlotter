@@ -33,7 +33,7 @@ public class Main
 		while(true)
 		{
 			frame.repaint();
-			Thread.yield();
+			Thread.sleep(10);
 		}
 	}
 }

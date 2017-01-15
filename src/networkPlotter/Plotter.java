@@ -83,7 +83,7 @@ public class Plotter extends JPanel implements MouseMotionListener
 		g2d.drawLine(0, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0), this.getWidth(), (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0));
 		for(String s : Globals.enabled)
 		{
-			Integer lastx = null, lasty = null;
+			Double lastx = null, lasty = null;
 			g2d.setColor(Globals.colors.get(s));
 			if(tmp.containsKey(s))
 			{
@@ -95,12 +95,12 @@ public class Plotter extends JPanel implements MouseMotionListener
 						g2d.fillOval((e.getKey()/Hscale)-scroll-3, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue())-3, 6, 6);
 						if(lastx == null)
 						{
-							lastx = (e.getKey()/Hscale);
-							lasty = (int)Math.round(e.getValue());
+							lastx = (double)(e.getKey()/Hscale);
+							lasty = e.getValue();
 						}
-						g2d.drawLine(lastx-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, lasty), (e.getKey()/Hscale)-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue()));
-						lastx = (e.getKey()/Hscale);
-						lasty = (int)Math.round(e.getValue());
+						g2d.drawLine((int)Math.round(lastx)-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, lasty), (e.getKey()/Hscale)-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue()));
+						lastx = (double)(e.getKey()/Hscale);
+						lasty = e.getValue();
 					}
 				}}
 			}

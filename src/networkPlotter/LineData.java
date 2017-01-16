@@ -53,6 +53,7 @@ public class LineData extends JPanel implements ActionListener
 				Globals.colors.put(name, cp.getColor());
 			}
 		});
+		cp.setListener(this);
 		remove = new JButton("X");
 		remove.addActionListener(this);
 		this.add(remove);
@@ -87,6 +88,12 @@ public class LineData extends JPanel implements ActionListener
 			this.removeAll();
 			this.revalidate();
 			this.repaint();
+		}
+		else if(e.getSource().equals(cp))
+		{
+			colorPicker.setBackground(cp.getColor());
+			colorPicker.repaint();
+			Globals.colors.put(name, cp.getColor());
 		}
 	}
 }

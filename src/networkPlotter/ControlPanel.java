@@ -120,7 +120,7 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 			Globals.update = false;
 			try
 			{
-				new File(System.getProperty("user.home")+ "/NetworkLogger/").mkdir();
+				new File(System.getProperty("user.home")+ "/NetworkPlotter/").mkdir();
 				PrintWriter pw;
 				for(Map.Entry<String, Map<Integer, Double>> entry : Globals.data.entrySet())
 				{

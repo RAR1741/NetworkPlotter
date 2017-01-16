@@ -34,9 +34,7 @@ public class ColorPickerFrame extends JFrame implements ActionListener
 	
 	public Color getColor()
 	{
-		System.out.println(chooser.getColor());
 		return chooser.getColor();
-		
 	}
 	
 	public void setListener(ActionListener a)

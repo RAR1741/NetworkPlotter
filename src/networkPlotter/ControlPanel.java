@@ -124,7 +124,7 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 				PrintWriter pw;
 				for(Map.Entry<String, Map<Integer, Double>> entry : Globals.data.entrySet())
 				{
-					pw = new PrintWriter(new File(System.getProperty("user.home")+ "/NetworkLogger/" + exportName.getText() + "-" + entry.getKey() + ".csv"));
+					pw = new PrintWriter(new File(System.getProperty("user.home")+ "/NetworkPlotter/" + exportName.getText() + "-" + entry.getKey() + ".csv"));
 					pw.println("time," + entry.getKey() + ",");
 					int tmp = 0;
 					for(Map.Entry<Integer, Double> entry2 : Globals.data.get(entry.getKey()).entrySet())

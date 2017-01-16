@@ -82,7 +82,9 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		}
 		else if(e.getSource().equals(ip))
 		{
+			NetworkTable.shutdown();
 			NetworkTable.setIPAddress(ip.getText());
+			NetworkTable.initialize();
 		}
 		else if(e.getSource().equals(add))
 		{

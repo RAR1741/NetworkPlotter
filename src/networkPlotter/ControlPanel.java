@@ -1,12 +1,18 @@
 package networkPlotter;
 
+import java.util.Map;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -20,11 +26,14 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 {
 	private static final long serialVersionUID = 4974031669602868511L;
 	JCheckBox check;
+	JCheckBox update;
 	JTextField ip;
 	JTextField add;
+	JTextField exportName;
 	JPanel space;
 	JSpinner maxSpinner;
 	JSpinner minSpinner;
+	JButton export;
 	
 	public ControlPanel()
 	{
@@ -36,6 +45,11 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		check.setSelected(true);
 		check.addActionListener(this);
 		this.add(check);
+		update = new JCheckBox("Update");
+		update.setAlignmentX(LEFT_ALIGNMENT);
+		update.setSelected(true);
+		update.addActionListener(this);
+		this.add(update);
 		this.add(new JLabel("Robot IP", JLabel.LEFT));
 		ip = new JTextField();
 		ip.setAlignmentX(LEFT_ALIGNMENT);
@@ -45,6 +59,17 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		ip.addActionListener(this);
 		this.add(ip);
 		JPanel tmp = new JPanel();
+		tmp.setAlignmentX(LEFT_ALIGNMENT);
+		tmp.setLayout(new BoxLayout(tmp, BoxLayout.X_AXIS));
+		exportName = new JTextField();
+		exportName.setColumns(20);
+		exportName.setMaximumSize(exportName.getPreferredSize());
+		tmp.add(exportName);
+		export = new JButton("Export");
+		export.addActionListener(this);
+		tmp.add(export);
+		this.add(tmp);
+		tmp = new JPanel();
 		tmp.setMaximumSize(new Dimension(500, 25));
 		tmp.add(new JLabel("Max Value: "));
 		tmp.setAlignmentX(LEFT_ALIGNMENT);
@@ -89,6 +114,42 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		else if(e.getSource().equals(add))
 		{
 			addLineData(add.getText());
+		}
+		else if(e.getSource().equals(export))
+		{
+			Globals.update = false;
+			try
+			{
+				new File(System.getProperty("user.home")+ "/NetworkLogger/").mkdir();
+				PrintWriter pw;
+				for(Map.Entry<String, Map<Integer, Double>> entry : Globals.data.entrySet())
+				{
+					pw = new PrintWriter(new File(System.getProperty("user.home")+ "/NetworkLogger/" + exportName.getText() + "-" + entry.getKey() + ".csv"));
+					pw.println("time," + entry.getKey() + ",");
+					int tmp = 0;
+					for(Map.Entry<Integer, Double> entry2 : Globals.data.get(entry.getKey()).entrySet())
+					{
+						if(tmp % 10 == 0)
+						{
+							pw.println(entry2.getKey() + "," + entry2.getValue() + ",");
+						}
+						tmp++;
+					}
+					pw.close();
+					Globals.update = true;
+					JOptionPane.showMessageDialog(this, "File exported successfully");
+				}
+			}
+			catch (FileNotFoundException e1)
+			{
+				JOptionPane.showMessageDialog(this, "File export failed");
+				e1.printStackTrace();
+			}
+			Globals.update = true;
+		}
+		else if(e.getSource().equals(update))
+		{
+			Globals.update = update.isSelected();
 		}
 	}
 	

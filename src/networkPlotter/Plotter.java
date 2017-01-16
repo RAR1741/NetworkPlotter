@@ -122,11 +122,12 @@ public class Plotter extends JPanel implements MouseMotionListener
 	
 	public void update()
 	{
-		y+=0.05;
-		y2-=0.02;
-		for(Map.Entry<String, Map<Integer, Double>> e : Globals.data.entrySet())
+		if(Globals.update)
 		{
-			Globals.data.get(e.getKey()).put((int)(System.currentTimeMillis()-start), table.getNumber(e.getKey(), 0.0));
+			for(Map.Entry<String, Map<Integer, Double>> e : Globals.data.entrySet())
+			{
+				Globals.data.get(e.getKey()).put((int)(System.currentTimeMillis()-start), table.getNumber(e.getKey(), 0.0));
+			}
 		}
 //		Globals.data.get("Test").put((int)(System.currentTimeMillis()-start), y);
 //		Globals.data.get("Test2").put((int)(System.currentTimeMillis()-start), y2);

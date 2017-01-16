@@ -14,12 +14,14 @@ public class Globals
 	public static boolean autoscroll;
 	public static double vertMin;
 	public static double vertMax;
+	public static boolean update;
 	
 	public static void init()
 	{
 		autoscroll = true;
 		vertMin = -100;
 		vertMax = 100;
+		update = true;
 		data = new LinkedHashMap<String, Map<Integer, Double>>()
 		{
 			private static final long serialVersionUID = 1475914646030268172L;

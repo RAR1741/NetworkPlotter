@@ -14,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -34,6 +35,8 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 	JSpinner maxSpinner;
 	JSpinner minSpinner;
 	JButton export;
+	JButton discover;
+	JScrollPane scroll;
 	
 	public ControlPanel()
 	{
@@ -85,17 +88,22 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		minSpinner.addChangeListener(this);
 		tmp.add(minSpinner);
 		this.add(tmp);
+		discover = new JButton("Discover");
+		discover.addActionListener(this);
+		this.add(discover);
 		this.add(new JLabel("Add more data:",JLabel.LEFT));
 		add = new JTextField();
 		add.setAlignmentX(LEFT_ALIGNMENT);
 		add.setColumns(30);
 		add.setMaximumSize(add.getPreferredSize());
 		add.addActionListener(this);
+		this.add(add);
 		space = new JPanel();
 		space.setLayout(new BoxLayout(space, BoxLayout.Y_AXIS));
 		space.setAlignmentX(LEFT_ALIGNMENT);
-		this.add(add);
-		this.add(space);
+		scroll = new JScrollPane(space, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setAlignmentX(LEFT_ALIGNMENT);
+		this.add(scroll);
 	}
 
 	@Override
@@ -113,7 +121,7 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		}
 		else if(e.getSource().equals(add))
 		{
-			addLineData(add.getText());
+			addLineData(add.getText(), true);
 		}
 		else if(e.getSource().equals(export))
 		{
@@ -137,8 +145,8 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 					}
 					pw.close();
 					Globals.update = true;
-					JOptionPane.showMessageDialog(this, "File exported successfully");
 				}
+				JOptionPane.showMessageDialog(this, "File exported successfully");
 			}
 			catch (FileNotFoundException e1)
 			{
@@ -150,6 +158,23 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		else if(e.getSource().equals(update))
 		{
 			Globals.update = update.isSelected();
+		}
+		else if(e.getSource().equals(discover))
+		{
+			NetworkTable table = NetworkTable.getTable("logging");
+			Globals.data.clear();
+			Globals.enabled.clear();
+			Globals.colors.clear();
+			space.removeAll();
+			space.revalidate();
+			space.repaint();
+			for(String s : table.getKeys())
+			{
+				addLineData(s, false);
+				System.out.println("test");
+			}
+			scroll.repaint();
+			scroll.revalidate();
 		}
 	}
 	
@@ -166,10 +191,13 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		}
 	}
 	
-	public void addLineData(String name)
+	public void addLineData(String name, boolean enabled)
 	{
-		space.add(new LineData(name));
-		Globals.enabled.add(name);
+		space.add(new LineData(name, enabled));
+		if(enabled)
+		{
+			Globals.enabled.add(name);
+		}
 		Globals.data.put(name, Globals.data.get(name));
 		space.revalidate();
 		space.repaint();

@@ -21,20 +21,21 @@ public class LineData extends JPanel implements ActionListener
 	private ColorPickerFrame cp;
 	private JButton remove;
 	
-	public LineData(String name)
+	public LineData(String name, boolean enabled)
 	{
-		this(name, Color.red);
+		this(name, new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)), enabled);
 	}
 	
-	public LineData(String name, Color color)
+	public LineData(String name, Color color, boolean e)
 	{
 		super();
+		Globals.colors.put(name, color);
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.name = name;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		enabled = new JCheckBox(name);
 		enabled.addActionListener(this);
-		enabled.setSelected(true);
+		enabled.setSelected(e);
 		this.add(enabled);
 		colorPicker = new JButton("  ");
 		colorPicker.setBackground(color);
@@ -82,12 +83,7 @@ public class LineData extends JPanel implements ActionListener
 		}
 		else if(e.getSource().equals(remove))
 		{
-			Globals.data.remove(name);
-			Globals.enabled.remove(name);
-			Globals.colors.remove(name);
-			this.removeAll();
-			this.revalidate();
-			this.repaint();
+			remove();
 		}
 		else if(e.getSource().equals(cp))
 		{
@@ -95,5 +91,15 @@ public class LineData extends JPanel implements ActionListener
 			colorPicker.repaint();
 			Globals.colors.put(name, cp.getColor());
 		}
+	}
+	
+	public void remove()
+	{
+		Globals.data.remove(name);
+		Globals.enabled.remove(name);
+		Globals.colors.remove(name);
+		this.removeAll();
+		this.revalidate();
+		this.repaint();
 	}
 }

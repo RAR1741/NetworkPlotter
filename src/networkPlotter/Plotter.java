@@ -20,6 +20,7 @@ public class Plotter extends JPanel implements MouseMotionListener
 {
 	private static final long serialVersionUID = 6406146367544069608L;
 	long start;
+	long nextUpdate;
 	double y;
 	double y2;
 	NetworkTable table;
@@ -30,6 +31,7 @@ public class Plotter extends JPanel implements MouseMotionListener
 		start = System.currentTimeMillis();
 		y = 0;
 		y2 = 600;
+		nextUpdate = System.currentTimeMillis();
 		this.addMouseMotionListener(this);
 		this.addMouseListener(new MouseAdapter()
 		{
@@ -129,9 +131,13 @@ public class Plotter extends JPanel implements MouseMotionListener
 	{
 		if(Globals.update)
 		{
-			for(Map.Entry<String, Map<Integer, Double>> e : Globals.data.entrySet())
+			if(System.currentTimeMillis() > nextUpdate)
 			{
-				Globals.data.get(e.getKey()).put((int)(System.currentTimeMillis()-start), table.getNumber(e.getKey(), 0.0));
+				for(Map.Entry<String, Map<Integer, Double>> e : Globals.data.entrySet())
+				{
+					Globals.data.get(e.getKey()).put((int)(System.currentTimeMillis()-start), table.getNumber(e.getKey(), 0.0));
+				}
+				nextUpdate = System.currentTimeMillis() + 100;
 			}
 		}
 //		Globals.data.get("Test").put((int)(System.currentTimeMillis()-start), y);

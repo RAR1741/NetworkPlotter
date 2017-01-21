@@ -1,10 +1,15 @@
 package networkPlotter;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -58,6 +63,20 @@ public class LineData extends JPanel implements ActionListener
 		remove = new JButton("X");
 		remove.addActionListener(this);
 		this.add(remove);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		Set<Entry<Integer, Double>> tmpSet = Globals.data.get(name).entrySet();
+		if(tmpSet.size() != 0)
+		{
+			double val = ((Entry<Integer, Double>)tmpSet.toArray()[tmpSet.size()-1]).getValue();
+			val = (double)Math.round(val * 1000d) / 1000d;
+			colorPicker.setText(Double.toString(val));
+		}
 	}
 
 	@Override

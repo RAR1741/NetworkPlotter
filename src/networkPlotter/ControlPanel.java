@@ -171,7 +171,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 			for(String s : table.getKeys())
 			{
 				addLineData(s, false);
-				System.out.println("test");
 			}
 			scroll.repaint();
 			scroll.revalidate();

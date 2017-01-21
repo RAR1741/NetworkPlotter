@@ -1,16 +1,17 @@
 package networkPlotter;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,17 +38,19 @@ public class LineData extends JPanel implements ActionListener
 		Globals.colors.put(name, color);
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.name = name;
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createLineBorder(color));
+		this.setMaximumSize(new Dimension(100000,30));
 		enabled = new JCheckBox(name);
 		enabled.addActionListener(this);
 		enabled.setSelected(e);
-		this.add(enabled);
+		this.add(enabled, BorderLayout.WEST);
 		colorPicker = new JButton("  ");
 		colorPicker.setBackground(color);
 		colorPicker.setContentAreaFilled(false);
 		colorPicker.setOpaque(true);
 		colorPicker.addActionListener(this);
-		this.add(colorPicker);
+		this.add(colorPicker, BorderLayout.CENTER);
 		cp = new ColorPickerFrame(color);
 		cp.addWindowListener(new WindowAdapter()
 		{
@@ -62,7 +65,7 @@ public class LineData extends JPanel implements ActionListener
 		cp.setListener(this);
 		remove = new JButton("X");
 		remove.addActionListener(this);
-		this.add(remove);
+		this.add(remove, BorderLayout.EAST);
 	}
 	
 	@SuppressWarnings("unchecked")

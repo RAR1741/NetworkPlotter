@@ -54,19 +54,24 @@ public class Plotter extends JPanel implements MouseMotionListener
 		Graphics2D g2d = (Graphics2D) g;
 		if(Globals.autoscroll)
 		{
-			for(String s : Globals.enabled)
+			if((System.currentTimeMillis() - start)/Hscale > this.getWidth())
 			{
-				if(tmp.containsKey(s))
-				{
-					for(Map.Entry<Integer, Double> e : tmp.get(s).entrySet())
-					{
-						if(e.getKey()/Hscale > this.getWidth())
-						{
-							scroll = e.getKey()/Hscale - this.getWidth();
-						}
-					}
-				}
+				scroll = (int) ((System.currentTimeMillis() - start)/Hscale - this.getWidth());
 			}
+			
+//			for(String s : Globals.enabled)
+//			{
+//				if(tmp.containsKey(s))
+//				{
+//					for(Map.Entry<Integer, Double> e : tmp.get(s).entrySet())
+//					{
+//						if(e.getKey()/Hscale > this.getWidth())
+//						{
+//							scroll = e.getKey()/Hscale - this.getWidth();
+//						}
+//					}
+//				}
+//			}
 		}
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());

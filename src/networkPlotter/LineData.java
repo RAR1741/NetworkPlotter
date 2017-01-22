@@ -2,6 +2,7 @@ package networkPlotter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -119,6 +120,7 @@ public class LineData extends JPanel implements ActionListener
 		Globals.data.remove(name);
 		Globals.enabled.remove(name);
 		Globals.colors.remove(name);
+		this.getParent().remove(this);
 		this.removeAll();
 		this.revalidate();
 		this.repaint();

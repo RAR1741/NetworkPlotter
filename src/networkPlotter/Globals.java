@@ -2,6 +2,7 @@ package networkPlotter;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ public class Globals
 	public static Map<String, Map<Integer, Double>> data;
 	public static List<String> enabled;
 	public static Map<String, Color> colors;
+	public static Map<String, MinMaxPair> minMax;
 	public static boolean autoscroll;
 	public static double vertMin;
 	public static double vertMax;
@@ -59,6 +61,19 @@ public class Globals
 				if(!containsKey(o))
 				{
 					return Color.red;
+				}
+				return super.get(o);
+			}
+		};
+		minMax = new HashMap<String, MinMaxPair>()
+		{
+			private static final long serialVersionUID = 6430770363258542638L;
+			@Override
+			public MinMaxPair get(Object o)
+			{
+				if(!containsKey(o))
+				{
+					return new MinMaxPair(-100, 100);
 				}
 				return super.get(o);
 			}

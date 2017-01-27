@@ -21,11 +21,13 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 	private JSpinner minSpinner;
 	private JButton remove;
 	private LineData parent;
+	private String name;
 	
 	public LineSettingsFrame(String name, LineData parent)
 	{
 		super();
 		this.parent = parent;
+		this.name = name;
 		this.setTitle(name + " Settings");
 		this.getContentPane().setLayout(new GridLayout(0, 1));
 		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -100000.0, 100000.0, 1.0));
@@ -62,11 +64,15 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 	{
 		if(e.getSource().equals(maxSpinner))
 		{
-			//TODO change max value for line
+			MinMaxPair c = Globals.minMax.get(name);
+			c.max = (double) maxSpinner.getValue();
+			Globals.minMax.put(name, c);
 		}
 		else if(e.getSource().equals(minSpinner))
 		{
-			//TODO change min value for line
+			MinMaxPair c = Globals.minMax.get(name);
+			c.min = (double) minSpinner.getValue();
+			Globals.minMax.put(name, c);
 		}
 	}
 }

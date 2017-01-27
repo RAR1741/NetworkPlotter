@@ -15,15 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class ControlPanel extends JPanel implements ActionListener, ChangeListener
+public class ControlPanel extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = 4974031669602868511L;
 	JCheckBox check;
@@ -32,8 +28,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 	JTextField add;
 	JTextField exportName;
 	JPanel space;
-	JSpinner maxSpinner;
-	JSpinner minSpinner;
 	JButton export;
 	JButton discover;
 	JScrollPane scroll;
@@ -71,22 +65,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 		export = new JButton("Export");
 		export.addActionListener(this);
 		tmp.add(export);
-		this.add(tmp);
-		tmp = new JPanel();
-		tmp.setMaximumSize(new Dimension(500, 25));
-		tmp.add(new JLabel("Max Value: "));
-		tmp.setAlignmentX(LEFT_ALIGNMENT);
-		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -10000.0, 10000.0, 1.0));
-		maxSpinner.addChangeListener(this);
-		tmp.add(maxSpinner);
-		this.add(tmp);
-		tmp = new JPanel();
-		tmp.setMaximumSize(new Dimension(500, 25));
-		tmp.add(new JLabel("Min Value: "));
-		tmp.setAlignmentX(LEFT_ALIGNMENT);
-		minSpinner = new JSpinner(new SpinnerNumberModel(-100.0, -10000.0, 10000.0, 1.0));
-		minSpinner.addChangeListener(this);
-		tmp.add(minSpinner);
 		this.add(tmp);
 		discover = new JButton("Discover");
 		discover.addActionListener(this);
@@ -174,19 +152,6 @@ public class ControlPanel extends JPanel implements ActionListener, ChangeListen
 			}
 			scroll.repaint();
 			scroll.revalidate();
-		}
-	}
-	
-	@Override
-	public void stateChanged(ChangeEvent e)
-	{
-		if(e.getSource().equals(maxSpinner))
-		{
-			Globals.vertMax = (double) maxSpinner.getValue();
-		}
-		else if(e.getSource().equals(minSpinner))
-		{
-			Globals.vertMin = (double) minSpinner.getValue();
 		}
 	}
 	

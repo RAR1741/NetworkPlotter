@@ -25,7 +25,8 @@ public class LineData extends JPanel implements ActionListener
 	private JButton colorPicker;
 	private String name;
 	private ColorPickerFrame cp;
-	private JButton remove;
+	private LineSettingsFrame ls;
+	private JButton settings;
 	
 	public LineData(String name, boolean enabled)
 	{
@@ -63,9 +64,10 @@ public class LineData extends JPanel implements ActionListener
 			}
 		});
 		cp.setListener(this);
-		remove = new JButton("X");
-		remove.addActionListener(this);
-		this.add(remove, BorderLayout.EAST);
+		settings = new JButton("⚙");
+		settings.addActionListener(this);
+		ls = new LineSettingsFrame(name, this);
+		this.add(settings, BorderLayout.EAST);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -103,9 +105,9 @@ public class LineData extends JPanel implements ActionListener
 		{
 			cp.setVisible(true);
 		}
-		else if(e.getSource().equals(remove))
+		else if(e.getSource().equals(settings))
 		{
-			remove();
+			ls.setVisible(true);
 		}
 		else if(e.getSource().equals(cp))
 		{

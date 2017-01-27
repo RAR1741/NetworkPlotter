@@ -14,15 +14,11 @@ public class Globals
 	public static Map<String, Color> colors;
 	public static Map<String, MinMaxPair> minMax;
 	public static boolean autoscroll;
-	public static double vertMin;
-	public static double vertMax;
 	public static boolean update;
 	
 	public static void init()
 	{
 		autoscroll = true;
-		vertMin = -100;
-		vertMax = 100;
 		update = true;
 		data = new LinkedHashMap<String, Map<Integer, Double>>()
 		{

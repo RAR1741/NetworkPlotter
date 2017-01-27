@@ -1,6 +1,5 @@
 package networkPlotter;
 
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,15 +17,15 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 {
 	private static final long serialVersionUID = -4615618764467787348L;
 	
-	private String name;
 	private JSpinner maxSpinner;
 	private JSpinner minSpinner;
 	private JButton remove;
+	private LineData parent;
 	
-	public LineSettingsFrame(String name)
+	public LineSettingsFrame(String name, LineData parent)
 	{
 		super();
-		this.name = name;
+		this.parent = parent;
 		this.setTitle(name + " Settings");
 		this.getContentPane().setLayout(new GridLayout(0, 1));
 		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -100000.0, 100000.0, 1.0));
@@ -43,6 +42,7 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 		this.add(tmp);
 		remove = new JButton("Remove");
 		remove.addActionListener(this);
+		this.add(remove);
 		this.pack();
 		this.setLocationRelativeTo(null);
 	}
@@ -52,7 +52,8 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 	{
 		if(e.getSource().equals(remove))
 		{
-			
+			parent.remove();
+			this.dispose();
 		}
 	}
 
@@ -67,12 +68,5 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 		{
 			//TODO change min value for line
 		}
-	}
-	
-	public void remove()
-	{
-		Globals.data.remove(name);
-		Globals.enabled.remove(name);
-		Globals.colors.remove(name);
 	}
 }

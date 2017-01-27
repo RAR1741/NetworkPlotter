@@ -87,25 +87,29 @@ public class Plotter extends JPanel implements MouseMotionListener
 			}
 		}
 		//System.out.println(mapValue(Globals.vertMin, Globals.vertMax, this.getHeight()-BOTTOM, 0, 0));
-		g2d.drawLine(0, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0), this.getWidth(), (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0));
+		//g2d.drawLine(0, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0), this.getWidth(), (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, 0));
 		for(String s : Globals.enabled)
 		{
+			double vertMin = Globals.minMax.get(s).min;
+			double vertMax = Globals.minMax.get(s).max;
+			g2d.setColor(Globals.colors.get(s).darker().darker());
+			g2d.drawLine(0, (int)mapValue(vertMin, vertMax,this.getHeight()-BOTTOM, 0, 0), this.getWidth(), (int)mapValue(vertMin, vertMax,this.getHeight()-BOTTOM, 0, 0));
 			Double lastx = null, lasty = null;
 			g2d.setColor(Globals.colors.get(s));
 			if(tmp.containsKey(s))
-			{
+			{	
 				synchronized(tmp.get(s)){ for(Iterator<Map.Entry<Integer, Double>> iter = tmp.get(s).entrySet().iterator(); iter.hasNext(); )
 				{
 					Entry<Integer, Double> e = iter.next();
 					if((e.getKey()/Hscale)-scroll-3>=0 && (e.getKey()/Hscale)-scroll-3<=this.getWidth())
 					{
-						g2d.fillOval((e.getKey()/Hscale)-scroll-3, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue())-3, 6, 6);
+						g2d.fillOval((e.getKey()/Hscale)-scroll-3, (int)mapValue(vertMin, vertMax,this.getHeight()-BOTTOM, 0, e.getValue())-3, 6, 6);
 						if(lastx == null)
 						{
 							lastx = (double)(e.getKey()/Hscale);
 							lasty = e.getValue();
 						}
-						g2d.drawLine((int)Math.round(lastx)-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, lasty), (e.getKey()/Hscale)-scroll, (int)mapValue(Globals.vertMin, Globals.vertMax,this.getHeight()-BOTTOM, 0, e.getValue()));
+						g2d.drawLine((int)Math.round(lastx)-scroll, (int)mapValue(vertMin, vertMax,this.getHeight()-BOTTOM, 0, lasty), (e.getKey()/Hscale)-scroll, (int)mapValue(vertMin, vertMax,this.getHeight()-BOTTOM, 0, e.getValue()));
 						lastx = (double)(e.getKey()/Hscale);
 						lasty = e.getValue();
 					}

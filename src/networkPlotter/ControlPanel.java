@@ -35,7 +35,8 @@ public class ControlPanel extends JPanel implements ActionListener
 	public ControlPanel()
 	{
 		super();
-		this.setPreferredSize(new Dimension(150, 600));
+		this.setMinimumSize(new Dimension(200, 600));
+		this.setPreferredSize(this.getMinimumSize());
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		check = new JCheckBox("Autoscroll");
 		check.setAlignmentX(LEFT_ALIGNMENT);

@@ -1,6 +1,9 @@
 package networkPlotter;
 
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
@@ -25,6 +28,14 @@ public class Main
 		frame = new JFrame("NetworkPlotter");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new Plotter(), new ControlPanel());
+		split.addComponentListener(new ComponentAdapter()
+		{
+			@Override
+			public void componentResized(ComponentEvent e)
+			{
+				split.setDividerLocation((split.getWidth()-200.0)/split.getWidth());
+			}
+		});
 		frame.add(split);
 		frame.pack();
 		frame.setLocationRelativeTo(null);

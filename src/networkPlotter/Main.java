@@ -33,7 +33,7 @@ public class Main
 			@Override
 			public void componentResized(ComponentEvent e)
 			{
-				split.setDividerLocation((split.getWidth()-200.0)/split.getWidth());
+				split.setDividerLocation((split.getWidth()-220.0)/split.getWidth());
 			}
 		});
 		frame.add(split);

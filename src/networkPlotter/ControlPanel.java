@@ -1,6 +1,7 @@
 package networkPlotter;
 
 import java.util.Map;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ public class ControlPanel extends JPanel implements ActionListener
 	JPanel space;
 	JButton export;
 	JButton discover;
+	JButton clear;
 	JScrollPane scroll;
 	
 	public ControlPanel()
@@ -67,9 +69,16 @@ public class ControlPanel extends JPanel implements ActionListener
 		export.addActionListener(this);
 		tmp.add(export);
 		this.add(tmp);
+		tmp = new JPanel();
+		tmp.setLayout(new BoxLayout(tmp, BoxLayout.X_AXIS));
 		discover = new JButton("Discover");
 		discover.addActionListener(this);
-		this.add(discover);
+		tmp.add(discover);
+		clear = new JButton("Clear");
+		clear.addActionListener(this);
+		tmp.setAlignmentX(LEFT_ALIGNMENT);
+		tmp.add(clear);
+		this.add(tmp);
 		this.add(new JLabel("Add more data:",JLabel.LEFT));
 		add = new JTextField();
 		add.setAlignmentX(LEFT_ALIGNMENT);
@@ -153,6 +162,10 @@ public class ControlPanel extends JPanel implements ActionListener
 			}
 			scroll.repaint();
 			scroll.revalidate();
+		}
+		else if(e.getSource().equals(clear))
+		{
+			Globals.data.clear();
 		}
 	}
 	

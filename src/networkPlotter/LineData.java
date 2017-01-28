@@ -107,6 +107,12 @@ public class LineData extends JPanel implements ActionListener
 		}
 		else if(e.getSource().equals(settings))
 		{
+			if(ls.isVisible())
+			{
+				ls.dispose();
+				this.remove();
+				return;
+			}
 			ls.setVisible(true);
 		}
 		else if(e.getSource().equals(cp))

@@ -30,8 +30,8 @@ public class LineSettingsFrame extends JFrame implements ActionListener, ChangeL
 		this.name = name;
 		this.setTitle(name + " Settings");
 		this.getContentPane().setLayout(new GridLayout(0, 1));
-		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -100000.0, 100000.0, 1.0));
-		minSpinner = new JSpinner(new SpinnerNumberModel(-100.0, -100000.0, 100000.0, 1.0));
+		maxSpinner = new JSpinner(new SpinnerNumberModel(100.0, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1.0));
+		minSpinner = new JSpinner(new SpinnerNumberModel(-100.0, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1.0));
 		maxSpinner.addChangeListener(this);
 		minSpinner.addChangeListener(this);
 		JPanel tmp = new JPanel();
